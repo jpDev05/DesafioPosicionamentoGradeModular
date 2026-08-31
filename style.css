@@ -1,0 +1,384 @@
+/* CONFIGURAÇÕES GERAIS */
+
+* {
+    /* se eu colocar padding, borda -> é incluido no tamanho total do elemento */
+    /* evita que aumente a caixa dos elementos */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #F2F2F2;
+    color: #222222;
+}
+
+.cabecalho {
+    background-color: #222222;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 30px;
+}
+
+h1 {
+    margin-bottom: 5px;
+}
+
+.conteudo {
+    margin: 50px auto;
+    width: 70%;
+}
+
+.desafio {
+    background-color: #FFFFFF;
+    padding: 25px;
+    margin-bottom: 40px;
+}
+
+.desafio h2 {
+    margin-bottom: 5px;
+}
+
+/* SINAL >(MAIOR)   -  FILHO DIRETO, NÃO NETOS */
+.desafio > p {
+    margin-bottom: 15px;
+}
+
+/*
+    Nível 1
+        CATALOGO DE FILMES
+*/
+
+.filme {
+    border: 1px solid #CCCCCC;
+    background-color: #FFFFFF;
+
+    /* Tudo que ultrapassar dos limites dessa caixa, será escondido/cortado */
+    overflow: hidden;
+}
+
+.filme img {
+
+    /* Se o card aumentar ou diminuir, a imagem acompanha */
+    width: 100%;
+
+    height: 160px; /* altura fixa */
+
+    /* Faz a imagem preencher todo o espaço definido (100% x 160px) sem ficar esticada ou deformada. Se necessário, corta um pouco das laterais ou de cima/baixo */
+    object-fit: cover;
+}
+
+.filme h3,
+.filme p {
+    padding: 10px;
+}
+
+.catalogo {
+    display: grid;
+
+    /* Quero criar 3 colunas, cada uma ocupando uma fração igual do espaço disponível. */
+    /* repeat() é um atalho para: grid-template-columns: 1fr 1fr 1fr; */
+    /* 1fr é uma fração do espaço */
+    grid-template-columns: repeat(3, 1fr);
+
+    /* Só consigo usar o gap (espaçamento) com flex ou grid ativados */
+    gap: 15px;
+}
+
+
+/*
+    Nível 2
+        FILME EM DESTAQUE
+*/
+
+.destaque-grid {
+
+    /* As linhas que criamos vão ter 180px de altura */
+    grid-template-rows: repeat(2, 180px);
+
+    /* comportamento implícito do grid -> criar mais linhas automaticamente */
+    /* as linhas que o grid criar automaticamente também terão 180px */
+    grid-auto-rows: 180px;
+}
+
+.destaque-grid .filme {
+    display: grid;
+
+    /* auto -> serve para ocupar o mínimo de espaço possível para o elemento aparecer na tela */
+    /* 1fr -> serve para o outro elemento ocupar o espaço que sobrou (ocupa tudo) */
+    /* a imagem vai ocupar mais espaço que o texto */
+    grid-template-rows: 1fr auto;
+}
+
+.destaque-grid .filme img {
+
+    /* a imagem ocupa o tamanho disponivel */
+    height: 100%;
+
+    /* esse  min-height: 0; -> é um ajuste para evitar que a imagem force o Grid a ficar maior do que deveria */
+    /* Se esse espaço for menor que o seu tamanho natural, pdoe encolher sem reclamar */
+    min-height: 0;
+}
+
+.filme-destaque {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.filme-destaque h3 {
+    padding-bottom: 0;
+}
+
+.filme-destaque p {
+    padding-top: 5px;
+}
+
+/*
+    Nível 3
+        HOME DO CINEBOX
+*/
+
+.pagina {
+    display: grid;
+
+    grid-template-columns: 180px 1fr;
+
+    grid-template-areas: 
+        "topo topo"
+        "menu principal"
+        "rodape rodape";
+}
+
+.topo {
+    grid-area: topo;
+
+    background-color: #222222;
+    color: #FFFFFF;
+    padding: 20px;
+
+    display: grid;
+
+    grid-template-columns: 1fr auto;
+    align-items: center;
+}
+
+.topo > nav {
+    display: flex;
+    gap: 15px;
+}
+
+.topo a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+/* MENU */
+
+.menu {
+    grid-area: menu;
+
+    background-color: #DDDDDD;
+    padding: 20px;
+}
+
+.menu h3 {
+    margin-bottom: 15px;
+}
+
+.links {
+    display: grid;
+    gap: 10px;
+}
+
+.links a {
+    color: #222222;
+
+    /* tira o sublinhado */
+    text-decoration: none;
+}
+
+/* CONTEÚDO PRINCIPAL */
+
+.principal {
+    grid-area: principal;
+    padding: 20px;
+}
+
+.principal h2 {
+    margin-bottom: 15px;
+}
+
+.mini-catalogo {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.rodape {
+    grid-area: rodape;
+
+    background-color: #222222;
+    color: #FFFFFF;
+
+    text-align: center;
+    padding: 15px;
+}
+
+
+/*
+    Nível 4
+        LAYOUT MODULAR
+*/
+
+.grade-modular {
+    display: grid;
+
+    /* 4 colunas X 3 linhas de 160px de altura (cada linha) */
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 160px);
+
+    gap: 15px;
+}
+
+.grade-modular .filme {
+    display: grid;
+
+    grid-template-rows: 1fr auto;
+}
+
+.grade-modular .filme img {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    object-fit: cover;
+}
+
+/* FILME 1
+    Ocupa as três linhas
+*/
+
+/* nth-child(1) -> primeiro filho do filme */
+.grade-modular .filme:nth-child(1) {
+
+    /* span -> quantas céluas naquela direção (row/linha) o item vai ocupar */
+    grid-row: span 3;
+
+    /* grid-row: 2; -> ocupa o segundo lugar / a posição 2 da linha */
+
+    /* grid-row: 1 / 3; -> ocupa a quantidade de linhas divisórias do grid, pode ser uma pegadinha */
+
+    /* grid-row: 1 / 4; -> ocupa a quantidade de linhas divisórias do grid */
+
+}
+
+.grade-modular .filme:nth-child(2) {
+    grid-column: span 2;
+}
+
+.grade-modular .filme:nth-child(6) {
+    grid-row: span 2;
+}
+/*
+    Nível 5
+        LAYOUT MODULAR
+*/
+
+.grade-modular2 {
+    display: grid;
+
+    /* 4 colunas X 3 linhas de 160px de altura (cada linha) */
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 160px);
+
+    gap: 15px;
+}
+
+.grade-modular2 .filme {
+    display: grid;
+
+    grid-template-rows: 1fr auto;
+}
+
+.grade-modular2 .filme img {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    object-fit: cover;
+}
+
+/* FILME 1
+    Ocupa as três linhas
+*/
+
+/* nth-child(1) -> primeiro filho do filme */
+.grade-modular2 .filme:nth-child(1) {
+
+    /* span -> quantas céluas naquela direção (row/linha) o item vai ocupar */
+    grid-row: span 2;
+    grid-column: span 2;
+
+    /* grid-row: 2; -> ocupa o segundo lugar / a posição 2 da linha */
+
+    /* grid-row: 1 / 3; -> ocupa a quantidade de linhas divisórias do grid, pode ser uma pegadinha */
+
+    /* grid-row: 1 / 4; -> ocupa a quantidade de linhas divisórias do grid */
+
+}
+
+.grade-modular2 .filme:nth-child(2) {
+    grid-column: span 2;
+}
+
+
+
+.grade-modular2 {
+    display: grid;
+
+    /* 4 colunas X 3 linhas de 160px de altura (cada linha) */
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 160px);
+
+    gap: 15px;
+}
+.grade-modular2 .filme:nth-child(3) {
+
+    /* span -> quantas céluas naquela direção (row/linha) o item vai ocupar */
+    grid-column: span 2;
+
+    /* grid-row: 2; -> ocupa o segundo lugar / a posição 2 da linha */
+
+    /* grid-row: 1 / 3; -> ocupa a quantidade de linhas divisórias do grid, pode ser uma pegadinha */
+
+    /* grid-row: 1 / 4; -> ocupa a quantidade de linhas divisórias do grid */
+
+}
+.grade-modular2 .filme:nth-child(5) {
+
+    /* span -> quantas céluas naquela direção (row/linha) o item vai ocupar */
+    grid-column: span 2;
+
+    /* grid-row: 2; -> ocupa o segundo lugar / a posição 2 da linha */
+
+    /* grid-row: 1 / 3; -> ocupa a quantidade de linhas divisórias do grid, pode ser uma pegadinha */
+
+    /* grid-row: 1 / 4; -> ocupa a quantidade de linhas divisórias do grid */
+
+}
+.grade-modular2 .filme:nth-child(7) {
+
+    /* span -> quantas céluas naquela direção (row/linha) o item vai ocupar */
+    grid-column: span 2;
+
+    /* grid-row: 2; -> ocupa o segundo lugar / a posição 2 da linha */
+
+    /* grid-row: 1 / 3; -> ocupa a quantidade de linhas divisórias do grid, pode ser uma pegadinha */
+
+    /* grid-row: 1 / 4; -> ocupa a quantidade de linhas divisórias do grid */
+
+}
